@@ -95,6 +95,10 @@
                 iframe.style.width = "100%";
                 iframe.style.height = "100%";
                 iframe.style.border = "none";
+                // Forçar visualização móvel se possível
+                iframe.sandbox = "allow-same-origin allow-scripts allow-popups";
+                iframe.setAttribute("user-scalable", "no");
+
                 displayArea.appendChild(iframe);
             } else {
                 displayArea.innerHTML = "<p>Por favor, insira um URL válido. Note que alguns sites podem incluir anúncios que não podemos controlar.</p>";
