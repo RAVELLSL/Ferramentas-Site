@@ -1,110 +1,113 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Visualizador de Página</title>
-<style>
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  margin: 0;
-  padding: 0;
-  background: #0f0f20; /* Dark background for futuristic feel */
-}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Incorporação de Conteúdo Futurista</title>
+    <style>
+        body {
+            font-family: 'Orbitron', sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-.container {
-  width: 100%;
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 150, 255, 0.5);
+            border: 1px solid #b3e5fc;
+        }
 
-form {
-  width: 100%;
-  max-width: 600px;
-  display: flex;
-  align-items: center;
-  margin-bottom: 20px;
-}
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
 
-input[type="text"] {
-  width: calc(100% - 90px);
-  padding: 10px;
-  border: 1px solid #303050; /* Subtle border */
-  background: rgba(255, 255, 255, 0.1); /* Slightly see-through */
-  border-radius: 20px; /* Rounded borders */
-  font-size: 16px;
-  color: #ddd; /* Light text color for visibility */
-  outline: none;
-}
+        .content-area {
+            width: 100%;
+            height: 600px;
+            overflow-y: auto;
+            background-color: #e1f5fe;
+            border: 1px solid #b3e5fc;
+            border-radius: 10px;
+        }
 
-button, .zoom-button {
-  padding: 10px 20px;
-  margin-left: 5px;
-  border: none;
-  border-radius: 20px; /* Match input field's border radius */
-  font-size: 16px;
-  cursor: pointer;
-  background: linear-gradient(45deg, #0062e0, #33aaff); /* Gradient effect */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Shadow for depth */
-  color: white; /* White text */
-  transition: all 0.2s ease-in-out;
-}
+        #url-input, button {
+            width: 80%;
+            padding: 12px;
+            border: 2px solid #b3e5fc;
+            border-radius: 8px;
+            transition: border-color 0.3s ease-in-out;
+        }
 
-button:hover, .zoom-button:hover {
-  background: linear-gradient(45deg, #33aaff, #0062e0); /* Gradient hover effect */
-  transform: scale(1.05); /* Slight scale on hover */
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.45); /* Larger shadow on hover */
-}
+        #url-input:focus, button:focus {
+            outline: none;
+            border-color: #80d8ff;
+        }
 
-#embeddedPage {
-  width: 100%;
-  height: 100vh;
-  border: none;
-  transform-origin: top left;
-}
+        button {
+            width: 18%;
+            padding: 12px;
+            background-color: #29b6f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
 
-input:focus, button:focus, .zoom-button:focus {
-  outline: none;
-  border: 1px solid #33aaff; /* Focus style */
-}
+        button:hover {
+            background-color: #039be5;
+        }
 
-</style>
+    </style>
 </head>
 <body>
-<div class="container">
-  <form id="linkForm">
-    <input type="text" id="pageLink" name="pageLink" placeholder="Cole o link aqui" required>
-    <button type="submit">Carregar</button>
-    <button class="zoom-button" id="zoomOut">-</button>
-    <button class="zoom-button" id="zoomIn">+</button>
-  </form>
-  <iframe id="embeddedPage" src=""></iframe>
-</div>
-<script>
-document.getElementById('linkForm').addEventListener('submit', function(event) {
-  event.preventDefault();
-  loadPage();
-  document.getElementById('pageLink').value = ''; // Clear input field after loading
-});
+    <div class="container">
+        <div class="input-group">
+            <input type="text" id="url-input" placeholder="Digite o URL aqui">
+            <button onclick="loadContent()">Carregar</button>
+        </div>
+        <div id="content-display" class="content-area"></div>
+    </div>
 
-function loadPage() {
-  var pageLink = document.getElementById('pageLink').value;
-  document.getElementById('embeddedPage').src = pageLink;
-}
+    <script>
+        function loadContent() {
+            var url = document.getElementById('url-input').value;
+            var displayArea = document.getElementById('content-display');
 
-// Zoom functions
-var zoomLevel = 1;
-document.getElementById('zoomIn').addEventListener('click', function() {
-  zoomLevel = Math.min(2, zoomLevel + 0.1);
-  document.getElementById('embeddedPage').style.transform = 'scale(' + zoomLevel + ')';
-});
+            displayArea.innerHTML = ''; // Limpar conteúdo anterior
 
-document.getElementById('zoomOut').addEventListener('click', function() {
-  zoomLevel = Math.max(0.1, zoomLevel - 0.1);
-  document.getElementById('embeddedPage').style.transform = 'scale(' + zoomLevel + ')';
-});
-</script>
+            if (url) {
+                var iframe = document.createElement('iframe');
+                iframe.src = url;
+                iframe.style.width = "100%";
+                iframe.style.height = "100%";
+                iframe.style.border = "none";
+                displayArea.appendChild(iframe);
+            } else {
+                displayArea.innerHTML = "<p>Por favor, insira um URL válido. Note que alguns sites podem incluir anúncios que não podemos controlar.</p>";
+            }
+        }
+
+        // Evento para carregar conteúdo ao pressionar Enter
+        document.getElementById('url-input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                loadContent();
+                event.preventDefault();
+            }
+        });
+    </script>
 </body>
 </html>
