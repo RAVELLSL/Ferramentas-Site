@@ -1,137 +1,122 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RS Tech</title>
-<style>
-    body {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-        background: #f0f0f0; /* Light grey background for a minimalistic theme */
-        font-family: 'Arial', sans-serif; /* Modern typography */
-    }
-    .card-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsivo */
-        gap: 20px;
-        width: 100%;
-        max-width: 800px;
-        padding: 20px;
-    }
-    .card {
-        width: 100%;
-        height: 300px;
-        background: #ffffff; /* White background for the card */
-        border: 1px solid #d0d0d0; /* Soft border color */
-        border-radius: 15px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        padding: 20px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Subtle shadow for depth */
-        cursor: pointer;
-        text-decoration: none;
-        color: #333; /* Dark grey text for readability */
-        transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth animations */
-    }
-    .card svg {
-        width: 100px; /* Adjusted SVG size */
-        height: 100px; /* Adjusted SVG size */
-        margin-bottom: 20px;
-    }
-    .card:hover {
-        transform: translateY(-5px); /* Subtle levitation effect on hover */
-        box-shadow: 0 12px 24px rgba(0,0,0,0.2); /* Increased shadow on hover */
-    }
-    .card-title {
-        font-size: 18px; /* Appropriately sized font for readability */
-        font-weight: bold;
-        color: #555; /* Slightly darker text color for contrast */
-        text-align: center;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sites</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Orbitron', sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+            width: 90%;
+            max-width: 600px;
+            height: 93%;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 150, 255, 0.5);
+            border: 1px solid #b3e5fc;
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .content-area {
+            flex-grow: 1;
+            width: 100%;
+            overflow-y: auto;
+            background-color: #e1f5fe;
+            border: 1px solid #b3e5fc;
+            border-radius: 10px;
+        }
+
+        #url-input, button {
+            width: 80%;
+            padding: 12px;
+            border: 2px solid #b3e5fc;
+            border-radius: 8px;
+            transition: border-color 0.3s ease-in-out;
+        }
+
+        #url-input:focus, button:focus {
+            outline: none;
+            border-color: #80d8ff;
+        }
+
+        button {
+            width: 18%;
+            padding: 12px;
+            background-color: #29b6f6;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #039be5;
+        }
+    </style>
 </head>
 <body>
-<div class="card-container">
-    <!-- Dados de Acesso -->
-    <a href="https://ravellsl.github.io/Ferramentas-Dados-de-Acesso/" target="_blank" class="card" aria-label="Dados de Acesso">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M19 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h13c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 18H6V4h13v16z" fill="#7F00FF"/>
-            <path d="M8 6h8v2H8zM8 10h8v2H8z" fill="#E100FF"/>
-        </svg>
-        <div class="card-title">Dados de Acesso</div>
-    </a>
+    <div class="container">
+        <div class="input-group">
+            <input type="text" id="url-input" placeholder="Digite o URL aqui">
+            <button onclick="loadContent()">Carregar</button>
+        </div>
+        <div id="content-display" class="content-area"></div>
+    </div>
 
-    <!-- Imagem -->
-    <a href="https://ravellsl.github.io/Ferramentas-Imagem/" target="_blank" class="card" aria-label="Imagem">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <defs>
-                <linearGradient id="gradientPhoto" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#ff9a9e;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#fad0c4;stop-opacity:1" />
-                </linearGradient>
-            </defs>
-            <path d="M21 19H3c-1.1 0-1.99-.9-1.99-2L1 5c0-1.1.9-2 2-2h18c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2zm-10-7c1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3 1.34 3 3 3zm9 4.5V13c0-.83-.67-1.5-1.5-1.5S17 12.17 17 13v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5z" fill="url(#gradientPhoto)"/>
-        </svg>
-        <div class="card-title">Imagem</div>
-    </a>
+    <script>
+        function loadContent() {
+            var url = document.getElementById('url-input').value;
+            var displayArea = document.getElementById('content-display');
 
-    <!-- Player de Áudio -->
-    <a href="https://ravellsl.github.io/Ferramentas-Player-Audio/" target="_blank" class="card" aria-label="Player de Áudio">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <defs>
-                <linearGradient id="gradientAudio" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#89f7fe;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#66a6ff;stop-opacity:1" />
-                </linearGradient>
-            </defs>
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h-2v6h2v-6zm4 0h-2v6h2v-6z" fill="url(#gradientAudio)"/>
-        </svg>
-        <div class="card-title">Player de Áudio</div>
-    </a>
+            displayArea.innerHTML = ''; // Limpar conteúdo anterior
 
-    <!-- Registro de Atividades -->
-    <a href="https://ravellsl.github.io/Ferramentas-Registro-de-Atividades/" target="_blank" class="card" aria-label="Registro de Atividades">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-8 14H7v-2h4v2zm0-4H7v-2h4v2zm0-4H7V7h4v2zm6 8h-4v-2h4v2zm0-4h-4v-2h4v2zm0-4h-4V7h4v2z" fill="#feb47b"/>
-            <path d="M11 7h4v2h-4zM7 11h4v2H7zM7 15h4v2H7zM11 11h4v2h-4zM11 15h4v2h-4z" fill="#ff7e5f"/>
-        </svg>
-        <div class="card-title">Registro de Atividades</div>
-    </a>
+            if (url) {
+                var iframe = document.createElement('iframe');
+                iframe.src = url;
+                iframe.style.width = "100%";
+                iframe.style.height = "100%";
+                iframe.style.border = "none";
+                // Forçar visualização móvel se possível
+                iframe.sandbox = "allow-same-origin allow-scripts allow-popups";
+                iframe.setAttribute("user-scalable", "no");
 
-    <!-- Site -->
-    <a href="https://ravellsl.github.io/Ferramentas-Site/" target="_blank" class="card" aria-label="Site">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <defs>
-                <linearGradient id="gradientMonitor" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#4facfe;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#00f2fe;stop-opacity:1" />
-                </linearGradient>
-            </defs>
-            <path fill="url(#gradientMonitor)" d="M21,2H3C1.9,2,1,2.9,1,4v12c0,1.1,0.9,2,2,2h7v2H8v2h8v-2h-2v-2h7c1.1,0,2-0.9,2-2V4C23,2.9,22.1,2,21,2z M21,16H3V4h18V16z"/>
-        </svg>
-        <div class="card-title">Site</div>
-    </a>
+                displayArea.appendChild(iframe);
+            } else {
+                displayArea.innerHTML = "<p>Por favor, insira um URL válido. Note que alguns sites podem incluir anúncios que não podemos controlar.</p>";
+            }
+        }
 
-    <!-- Vídeo -->
-    <a href="https://ravellsl.github.io/Ferramentas-Videos/" target="_blank" class="card" aria-label="Vídeo">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <defs>
-                <linearGradient id="gradientVideo" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#ff4e50;stop-opacity:1" />
-                    <stop offset="100%" style="stop-color:#f9d423;stop-opacity:1" />
-                </linearGradient>
-            </defs>
-            <path fill="url(#gradientVideo)" d="M14.752 11.168l-4.579-2.651A1 1 0 009 9.003v5.994a1 1 0 001.173.835l4.579-2.651a1 1 0 000-1.671v-.342z"/>
-            <path fill="url(#gradientVideo)" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-        </svg>
-        <div class="card-title">Vídeo</div>
-    </a>
-</div>
+        // Evento para carregar conteúdo ao pressionar Enter
+        document.getElementById('url-input').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                loadContent();
+                event.preventDefault();
+            }
+        });
+    </script>
 </body>
 </html>
