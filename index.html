@@ -5,22 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Incorporação de Conteúdo Futurista</title>
     <style>
-        body {
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
             font-family: 'Orbitron', sans-serif;
             background-color: #f7f7f7;
             color: #333;
-            margin: 0;
-            padding-top: 20px;
+        }
+
+        body {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
         }
 
         .container {
             text-align: center;
             width: 90%;
             max-width: 600px;
+            height: 93%;
+            display: flex;
+            flex-direction: column;
             background: #ffffff;
             padding: 20px;
             border-radius: 15px;
@@ -35,8 +41,8 @@
         }
 
         .content-area {
+            flex-grow: 1;
             width: 100%;
-            height: 600px;
             overflow-y: auto;
             background-color: #e1f5fe;
             border: 1px solid #b3e5fc;
@@ -70,7 +76,6 @@
         button:hover {
             background-color: #039be5;
         }
-
     </style>
 </head>
 <body>
