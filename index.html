@@ -3,8 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sites</title>
+    <title>Simulador de Smartphone</title>
+    <!-- Importando a fonte 'Orbitron' -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
     <style>
+        /* Definindo box-sizing para border-box em todos os elementos */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
         html, body {
             margin: 0;
             padding: 0;
@@ -22,48 +29,61 @@
 
         .container {
             text-align: center;
-            width: 90%;
-            max-width: 600px;
-            height: 93%;
+            width: 100%;
+            max-width: 400px; /* Aumentando a largura para 400px */
             display: flex;
             flex-direction: column;
+            align-items: center;
             background: #ffffff;
             padding: 20px;
-            border-radius: 15px;
+            border-radius: 30px;
             box-shadow: 0 0 20px rgba(0, 150, 255, 0.5);
             border: 1px solid #b3e5fc;
+            position: relative;
+        }
+
+        /* Estilos para simular um smartphone */
+        .container::before, .container::after {
+            content: '';
+            position: absolute;
+            width: 80px; /* Aumentando a largura dos detalhes */
+            height: 5px;
+            background: #ccc;
+            border-radius: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .container::before {
+            top: 5px; /* Simulando o alto do smartphone */
+        }
+
+        .container::after {
+            bottom: 5px; /* Simulando a parte inferior do smartphone */
         }
 
         .input-group {
             display: flex;
-            justify-content: space-between;
+            gap: 10px; /* Espaçamento entre input e botão */
             margin-bottom: 20px;
-        }
-
-        .content-area {
-            flex-grow: 1;
             width: 100%;
-            overflow-y: auto;
-            background-color: #e1f5fe;
-            border: 1px solid #b3e5fc;
-            border-radius: 10px;
         }
 
-        #url-input, button {
-            width: 80%;
+        #url-input {
+            flex: 1;
             padding: 12px;
             border: 2px solid #b3e5fc;
             border-radius: 8px;
             transition: border-color 0.3s ease-in-out;
         }
 
-        #url-input:focus, button:focus {
-            outline: none;
+        #url-input:focus {
+            outline: 2px solid #80d8ff;
             border-color: #80d8ff;
         }
 
         button {
-            width: 18%;
+            flex: none;
             padding: 12px;
             background-color: #29b6f6;
             color: white;
@@ -75,6 +95,45 @@
 
         button:hover {
             background-color: #039be5;
+        }
+
+        button:focus {
+            outline: 2px solid #80d8ff;
+        }
+
+        .content-area {
+            width: 100%;
+            height: 700px; /* Aumentando a altura para 700px */
+            overflow: hidden;
+            background-color: #e1f5fe;
+            border: 1px solid #b3e5fc;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        /* Melhorando o contraste para acessibilidade */
+        .content-area, #url-input {
+            background-color: #ffffff;
+            color: #000000;
+        }
+
+        /* Estilos para o iframe */
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Ajuste para telas menores */
+        @media (max-width: 420px) {
+            .container {
+                max-width: 100%;
+                border-radius: 0;
+            }
+
+            .content-area {
+                height: calc(100vh - 140px); /* Ajuste dinâmico da altura */
+            }
         }
     </style>
 </head>
@@ -89,32 +148,37 @@
 
     <script>
         function loadContent() {
-            var url = document.getElementById('url-input').value;
+            var urlInput = document.getElementById('url-input').value.trim();
             var displayArea = document.getElementById('content-display');
-
             displayArea.innerHTML = ''; // Limpar conteúdo anterior
 
-            if (url) {
-                var iframe = document.createElement('iframe');
-                iframe.src = url;
-                iframe.style.width = "100%";
-                iframe.style.height = "100%";
-                iframe.style.border = "none";
-                // Forçar visualização móvel se possível
-                iframe.sandbox = "allow-same-origin allow-scripts allow-popups";
-                iframe.setAttribute("user-scalable", "no");
+            if (urlInput) {
+                try {
+                    var url = new URL(urlInput);
+                    if (url.protocol === 'http:' || url.protocol === 'https:') {
+                        var iframe = document.createElement('iframe');
+                        iframe.src = url.href;
+                        // Restringindo atributos do sandbox por questões de segurança
+                        iframe.sandbox = "allow-forms allow-popups allow-same-origin allow-scripts";
 
-                displayArea.appendChild(iframe);
+                        // Adiciona o iframe à área de exibição
+                        displayArea.appendChild(iframe);
+                    } else {
+                        throw new Error('Protocolo inválido');
+                    }
+                } catch (e) {
+                    displayArea.textContent = "Por favor, insira um URL válido.";
+                }
             } else {
-                displayArea.innerHTML = "<p>Por favor, insira um URL válido. Note que alguns sites podem incluir anúncios que não podemos controlar.</p>";
+                displayArea.textContent = "Por favor, insira um URL válido. Note que alguns sites podem incluir anúncios que não podemos controlar.";
             }
         }
 
         // Evento para carregar conteúdo ao pressionar Enter
-        document.getElementById('url-input').addEventListener('keypress', function(event) {
+        document.getElementById('url-input').addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
-                loadContent();
                 event.preventDefault();
+                loadContent();
             }
         });
     </script>
